@@ -17,6 +17,7 @@ class ArgsManager:
 
         self.immediate_download = False
         self.no_ui = False
+        self.gui = False
         self.load_config_from_args = False
         self.load_config_name = ""
         self.vi_mode = None
@@ -44,6 +45,9 @@ class ArgsManager:
         if self.parsed_args['no_ui']:
             self.immediate_download = True
             self.no_ui = True
+        elif self.parsed_args['gui']:
+            self.immediate_download = False
+            self.gui = True            
 
         if self.load_config_name:
             self.load_config_from_args = True

@@ -10,6 +10,7 @@ from rich.live import Live
 from cyberdrop_dl.managers.manager import Manager
 from cyberdrop_dl.scraper.scraper import ScrapeMapper
 from cyberdrop_dl.ui.ui import program_ui
+from cyberdrop_dl.gui.gui import program_gui
 from cyberdrop_dl.utils.sorting import Sorter
 from cyberdrop_dl.utils.utilities import check_latest_pypi, log_with_color, check_partials_and_empty_folders, log
 
@@ -26,7 +27,10 @@ def startup() -> Manager:
         manager.startup()
 
         if not manager.args_manager.immediate_download:
-            program_ui(manager)
+            if manager.args_manager.gui:
+                program_gui(manager)
+            else:
+                program_ui(manager)
 
         return manager
 
@@ -105,6 +109,7 @@ async def director(manager: Manager) -> None:
         await log("Starting UI...", 20)
         try:
             if not manager.args_manager.no_ui:
+                #TODO gui conditional
                 with Live(manager.progress_manager.layout, refresh_per_second=10):
                     await runtime(manager)
             else:
